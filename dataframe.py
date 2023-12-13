@@ -10,7 +10,10 @@ app = Dash(__name__)
 url = "https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/download?format=csv&timezone=Europe/Berlin&use_labels_for_header=false"
 df = pd.read_csv(url, sep=';')  # je spécifie le séparateur
 
-# 3. Mise en forme des données sous forme de tableau
+# 3. Sélectionner uniquement les colonnes souhaitées
+df = df.loc[:, ['id', 'cp', 'adresse', 'ville', 'geom', 'gazole_maj', 'gazole_prix', 'sp95_maj', 'sp95_prix', 'departement', 'code_departement', 'region', 'code_region']]
+
+# 4. Mise en forme des données sous forme de tableau
 app.layout = html.Div([
     html.H1('Prix des Carburants en France'),
     dash_table.DataTable(
@@ -28,7 +31,7 @@ app.layout = html.Div([
 )
 ])
 
-#4. Exécuter l'application
+#5. Exécuter l'application
 if __name__ == '__main__':
     app.run_server(debug=True)
 
