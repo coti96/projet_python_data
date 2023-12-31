@@ -1,5 +1,5 @@
 from dash import Dash
-from components.histogram import create_histogram
+
 
 def create_app():
     # Créer une instance de l'application Dash
