@@ -1,40 +1,31 @@
 import pandas as pd
-from dash import Dash, dcc, html, dash_table 
-from dash.dependencies import Input, Output
-from dash.dash_table.Format import Group
 
-# 1. Créer une instance de l'application Dash
-app = Dash(__name__)
+def prepare_data_histogram():
+    # Lire les données CSV depuis l'URL
+    url = "https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/download?format=csv&timezone=Europe/Berlin&use_labels_for_header=false"
+    df = pd.read_csv(url, sep=';')
 
-# 2. Lire les données CSV depuis l'URL
-url = "https://data.economie.gouv.fr/explore/dataset/prix-des-carburants-en-france-flux-instantane-v2/download?format=csv&timezone=Europe/Berlin&use_labels_for_header=false"
-df = pd.read_csv(url, sep=';')  # je spécifie le séparateur
+    # Convertir les colonnes de date en format datetime
+    date_columns = ['gazole_maj', 'sp95_maj', 'e85_maj', 'gplc_maj', 'e10_maj', 'sp98_maj']
+    for col in date_columns:
+        df[col] = pd.to_datetime(df[col], utc=True)
 
+    # Supprimer les lignes où toutes les colonnes de date sont NaN ou NaT
+    df = df.dropna(subset=date_columns, how='all')
 
+    # Filtrer les données pour les trois dernières années
+    three_years_ago = (pd.Timestamp.now(tz='UTC') - pd.DateOffset(years=3)).normalize()
+    df = df[df['gazole_maj'] >= three_years_ago]
 
-# 3. Sélectionner uniquement les colonnes souhaitées
-df = df.loc[:, ['id', 'cp', 'adresse', 'ville', 'geom', 'gazole_maj', 'gazole_prix', 'sp95_maj', 'sp95_prix', 'departement', 'code_departement', 'region', 'code_region']]
+    # Extraire le mois et l'année de la colonne 'gazole_maj'
+    df['year'] = df['gazole_maj'].dt.year
+    df['month'] = df['gazole_maj'].dt.month
 
-# 4. Mise en forme des données sous forme de tableau
+    # Grouper par année, mois et code_region, puis calculer le prix moyen
+    df_grouped = df.groupby(['year', 'month'])[date_columns + ['gazole_prix', 'sp95_prix', 'e85_prix', 'gplc_prix', 'e10_prix', 'sp98_prix']].mean().reset_index()
 
+    # Créer une nouvelle colonne pour l'axe des abscisses qui combine l'année et le mois
+    df_grouped['year_month'] = df_grouped['year'].astype(str) + '-' + df_grouped['month'].astype(str).str.zfill(2)
 
-app.layout = html.Div([
-    html.H1('Prix des Carburants en France'),
-    dash_table.DataTable(
-    id='table',  # Identifiant pour le composant DataTable
-
-    # Création d' une liste de dictionnaires où chaque dictionnaire représente une colonne du tableau. 
-    # Itère sur chaque colonne du DataFrame df pour créer cette liste.
-    # La clé "name" = nom  de la colonne, et la clé "id" = l’identifiant utilisé pour référencer les données de la colonne. 
-    columns=[{"name": i, "id": i} for i in df.columns],  #  
-    
-    # Conversion des données en une liste de dictionnaires et spécification de l'argument data.
-    # Chaque dictionnaire représente une ligne du DataFrame, avec les clés correspondant aux noms des colonnes et les valeurs correspondant aux données de cette ligne.
-    data=df.to_dict('records'),  
-    page_size=30  # Nombre de lignes affichées par page dans le tableau
-)
-])
-
-#5. Exécuter l'application
-if __name__ == '__main__':
-    app.run_server(debug=True)
+    # Retourner le DataFrame groupé
+    return df_grouped
