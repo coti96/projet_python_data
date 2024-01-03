@@ -19,7 +19,6 @@ def prepare_data_histogram(df):
     filter_condition = ((df['gazole_maj'] >= start_date) & (df['gazole_maj'] <= end_date))
     df = df[filter_condition]
 
-    # Créer une colonne 'trimestre' à partir de la colonne 'gazole_maj'
     
     # Créer une colonne 'trimestre' à partir de la colonne 'gazole_maj'
     df['trimestre'] = df['gazole_maj'].dt.to_period('Q')
@@ -31,7 +30,11 @@ def prepare_data_histogram(df):
         '2023Q3': ('juillet-septembre 2023', 3),
         '2023Q4': ('octobre-décembre 2023', 4)
     }
+    # Créer deux nouvelles colonnes à partir de la colonne 'trimestre'
+    # Une colonne avec les chaînes de caractères 
     df['trimestre_str'] = df['trimestre'].astype(str).map(lambda x: trimestre_mapper[x][0])
+
+    # et une autre avec les ordres numériques
     df['trimestre_order'] = df['trimestre'].astype(str).map(lambda x: trimestre_mapper[x][1])
 
     # Grouper par trimestre_str et calculer le prix moyen
