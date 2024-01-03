@@ -7,8 +7,9 @@ def prepare_coordinates(df, coord_column='geom'):
     df[['latitude', 'longitude']] = df[coord_column].str.split(',', expand=True).astype(float)
     return df
 
-def plot_gas_stations():
-    df = prepare_data()
+def plot_gas_stations(df):
+   
+
     # Préparer les coordonnées
     df = prepare_coordinates(df)
 
