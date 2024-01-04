@@ -1,6 +1,17 @@
 import pandas as pd
 
 def prepare_data_comparison(departement, carburant, df):
+    """
+    Prépare les données pour une comparaison spécifique basée sur le département et le type de carburant.
+
+    Args:
+        departement (str): Le code du département pour lequel effectuer la comparaison.
+        carburant (str): Le type de carburant (par exemple, 'gazole', 'e10').
+        df (pandas.DataFrame): Le DataFrame source contenant les données des stations-service.
+
+    Returns:
+        pandas.DataFrame: Un DataFrame filtré contenant les informations de comparaison.
+    """
     
     # Filtrer les données pour le département sélectionné
     df = df[df['code_departement'] == departement]

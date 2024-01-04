@@ -3,6 +3,19 @@ import pandas as pd
 from data import prepare_data
 
 def prepare_data_graphicLine(df):
+    """
+    Prépare les données pour la création d'un graphique linéaire montrant l'évolution des prix des carburants.
+
+    Cette fonction transforme le DataFrame en format approprié pour un graphique linéaire, incluant 
+    la conversion des dates, le filtrage des données des trois dernières années, et le calcul 
+    des moyennes mensuelles des prix par type de carburant.
+
+    Args:
+        df (pandas.DataFrame): DataFrame contenant les données des prix du carburant.
+
+    Returns:
+        pandas.DataFrame: DataFrame transformé, prêt pour la visualisation linéaire.
+    """
   
      # Convertir les colonnes de date en format datetime
     date_columns = ['gazole_maj', 'sp95_maj', 'e85_maj', 'gplc_maj', 'e10_maj', 'sp98_maj']
@@ -39,6 +52,17 @@ def prepare_data_graphicLine(df):
     return df_grouped
 
 def create_graphic_line(df):
+    """ Crée un graphique linéaire montrant l'évolution mensuelle des prix moyens des différents carburants.
+
+    Cette fonction utilise un DataFrame préparé pour générer un graphique linéaire affichant 
+    les tendances des prix des carburants sur les trois dernières années.
+
+    Args:
+        df (pandas.DataFrame): DataFrame contenant les données des prix du carburant.
+
+    Returns:
+        plotly.graph_objs._figure.Figure: Un objet Figure Plotly représentant le graphique linéaire.
+    """
 
     df_grouped = prepare_data_graphicLine(df)
     # Créer l'histogramme

@@ -3,7 +3,19 @@ import pandas as pd
 from data import prepare_data
 
 def prepare_data_histogram(df):
+    """
+    Prépare les données pour la création d'un histogramme par trimestre.
 
+    Cette fonction filtre et transforme le DataFrame pour les analyses trimestrielles
+    des prix du carburant pour l'année 2023. Elle crée des colonnes supplémentaires pour
+    le regroupement par trimestre et calcule le prix moyen de chaque type de carburant.
+
+    Args:
+        df (pandas.DataFrame): DataFrame contenant les données des prix du carburant.
+
+    Returns:
+        pandas.DataFrame: DataFrame transformé avec des données regroupées et moyennées par trimestre.
+    """
     
     # Convertir les colonnes de date en format datetime
     date_columns = ['gazole_maj', 'sp95_maj', 'e85_maj', 'gplc_maj', 'e10_maj', 'sp98_maj']
@@ -56,6 +68,18 @@ def prepare_data_histogram(df):
 
 
 def create_histogram(df):
+    """
+    Crée un histogramme des prix moyens des carburants par trimestre.
+
+    Cette fonction utilise un DataFrame préparé pour générer un graphique à barres
+    qui montre l'évolution des prix moyens des différents carburants au fil des trimestres de l'année 2023.
+
+    Args:
+        df (pandas.DataFrame): DataFrame contenant les données des prix du carburant.
+
+    Returns:
+        plotly.graph_objs._figure.Figure: Un objet Figure Plotly représentant l'histogramme.
+    """
     
     # Préparer les données
     df_grouped = prepare_data_histogram(df)

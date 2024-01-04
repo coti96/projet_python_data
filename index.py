@@ -13,7 +13,7 @@ app = create_app()
 
 app.css.append_css({'external_url': '/assets/style.css'})
 
-# Préparer les données
+# Recuperer les données en DataFrame grace à la fonction prepare_data() du fichier data.py
 df = prepare_data()
 
 # Créer  l'histogramme
@@ -110,10 +110,28 @@ app.layout = html.Div(children=[
      State('checklist-carburant', 'value')]
 )
 
-# Définition de la fonction qui traite les données du formulaire
-# Prend en paramètre les valeurs des composants qui déclenchent le callback
-# Retourne le résultat à afficher dans le composant spécifié dans Output
+
 def update_output(n_clicks, departement, carburant):
+    """
+    Traite les entrées du formulaire utilisateur et met à jour le contenu du tableau de bord.
+
+    Cette fonction est appelée en réponse à un événement de clic sur le bouton du formulaire.
+    Elle utilise les valeurs sélectionnées par l'utilisateur pour le département et le type de carburant,
+    appelle une fonction pour préparer les données de comparaison correspondantes et retourne
+    un élément HTML affichant les résultats.
+
+    Args:
+        n_clicks (int): Le nombre de fois que le bouton a été cliqué.
+        departement (str): Le code du département sélectionné par l'utilisateur.
+        carburant (str): Le type de carburant sélectionné par l'utilisateur.
+
+    Returns:
+        dash_html_components.Div: Un composant HTML Div contenant les résultats de la comparaison.
+    
+    Raises:
+        PreventUpdate: Cette exception est levée pour empêcher la mise à jour du callback
+                       si le bouton n'a pas été cliqué.
+    """
 
 
     # Si le bouton n'a pas été cliqué, ne rien faire

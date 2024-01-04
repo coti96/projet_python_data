@@ -1,0 +1,26 @@
+# Fichiers de cache Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Fichiers de cache et de configuration de l'environnement virtuel
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# Fichiers de base de données
+*.db
+*.sqlite3
+
+# Fichiers de journalisation
+*.log
+
+# Dossiers et fichiers de configuration de l'IDE (par exemple, pour VSCode, PyCharm, etc.)
+.vscode/
+.idea/
+
+# Autres fichiers et dossiers à ignorer
+.DS_Store
+Thumbs.db
