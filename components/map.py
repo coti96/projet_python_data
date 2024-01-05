@@ -47,7 +47,7 @@ def plot_gas_stations(df):
         df, 
         lat='latitude', 
         lon='longitude', 
-        zoom=5, 
+        zoom=4, 
         center={"lat": 46.2276, "lon": 2.2137},  # Centre de la France
         mapbox_style="open-street-map"
     )
@@ -55,7 +55,7 @@ def plot_gas_stations(df):
     fig.update_layout(
         title='Stations de carburants en France',
         title_font_size=24,
-        margin=dict(l=30, r=30, t=50, b=30),  # Ajuster la marge ici
+        margin=dict(l=30, r=30, t=50, b=30),  
         mapbox=dict(bearing=0, pitch=0)
     )
 

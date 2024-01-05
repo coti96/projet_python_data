@@ -1,6 +1,9 @@
 import plotly.express as px
 import pandas as pd
 from data import prepare_data
+import locale
+
+locale.setlocale(locale.LC_TIME, 'fr_FR')
 
 def prepare_data_graphicLine(df):
     """
@@ -18,35 +21,41 @@ def prepare_data_graphicLine(df):
     """
   
      # Convertir les colonnes de date en format datetime
-    date_columns = ['gazole_maj', 'sp95_maj', 'e85_maj', 'gplc_maj', 'e10_maj', 'sp98_maj']
+    date_columns = ['gazole_maj', 'sp95_maj', 'e85_maj', 'e10_maj', 'sp98_maj']
     for col in date_columns:
         df[col] = pd.to_datetime(df[col], utc=True)
+
+        
 
     # Supprimer les lignes où toutes les colonnes de date sont NaN ou NaT
     df = df.dropna(subset=date_columns, how='all')
 
     # Filtrer les données pour les trois dernières années
-    three_years_ago = (pd.Timestamp.now(tz='UTC') - pd.DateOffset(years=3)).normalize()
-    df = df[df['gazole_maj'] >= three_years_ago]
+    six_month_ago = (pd.Timestamp.now(tz='UTC') - pd.DateOffset(days=15)).normalize()
+    df = df[df['gazole_maj'] >= six_month_ago]
 
     # Extraire le mois et l'année de la colonne 'gazole_maj'
+    df['day'] = df['gazole_maj'].dt.day
     df['year'] = df['gazole_maj'].dt.year
     df['month'] = df['gazole_maj'].dt.month
 
-    # Grouper par année, mois et code_region, puis calculer le prix moyen
-    df_grouped = df.groupby(['year', 'month'])[date_columns + ['gazole_prix', 'sp95_prix', 'e85_prix', 'gplc_prix', 'e10_prix', 'sp98_prix']].mean().reset_index()
 
-    # Créer une nouvelle colonne pour l'axe des abscisses qui combine l'année et le mois
-    df_grouped['year_month'] = df_grouped['year'].astype(str) + '-' + df_grouped['month'].astype(str).str.zfill(2)
+    # Grouper par jour, mois et année, puis calculer le prix moyen
+    df_grouped = df.groupby(['day', 'month', 'year'])[date_columns + ['gazole_prix', 'sp95_prix', 'e85_prix', 'e10_prix', 'sp98_prix']].mean().reset_index()
+
+    # Créer une nouvelle colonne pour l'axe des abscisses qui combine le jour, le mois et l'année
+    df_grouped['date'] = pd.to_datetime(df_grouped[['year', 'month', 'day']]).dt.strftime('%d %B %Y')
 
     df_grouped = df_grouped.rename(columns={
         'gazole_prix': 'Gazole',
         'sp95_prix': 'SP95',
         'e85_prix': 'E85',
-        'gplc_prix': 'GPL',
         'e10_prix': 'E10',
         'sp98_prix': 'SP98'
     })
+
+    # Trier le DataFrame par date
+    df_grouped = df_grouped.sort_values('date')
 
     # Retourner le DataFrame groupé
     return df_grouped
@@ -64,27 +73,27 @@ def create_graphic_line(df):
         plotly.graph_objs._figure.Figure: Un objet Figure Plotly représentant le graphique linéaire.
     """
 
+    # Préparer les données
     df_grouped = prepare_data_graphicLine(df)
-    # Créer l'histogramme
+
+    # Créer le graphique à courbes
     fig = px.line(
         df_grouped, 
-        x='year_month', 
-        y=['Gazole', 'SP95', 'E85', 'GPL', 'E10', 'SP98'],
-        labels={'value': 'Prix moyen (€/L)', 'variable': 'Type de Carburant', 'year_month': 'Mois et Année'},
-        color_discrete_sequence=px.colors.qualitative.Vivid  # Palette de couleurs personnalisée
-        )
-    
-        # Définir la plage de l'axe des ordonnées
-    fig.update_yaxes(range=[1, 3], title='Prix moyen (€/L)')
-    
-        # Personnaliser l'histogramme
+        x='date', 
+        y=['Gazole', 'SP95', 'E85', 'E10', 'SP98'],
+        labels={'value': 'Prix moyen (€/L)', 'variable': 'Type de Carburant', 'date': 'Date'},
+        color_discrete_sequence=px.colors.qualitative.Vivid
+    )
+
+    # Définir la plage de l'axe des ordonnées et personnaliser le graphique
+    fig.update_yaxes(range=[0.5, 2.5], title='Prix moyen (€/L)')
     fig.update_layout(
-        title='Évolution du Prix des Carburants en France',
+        title='Évolution Quotidienne du Prix des Carburants en France',
         title_font_size=24,
         xaxis=dict(
-        title='Mois et Année',
-        title_font_size=18,
-        tickangle=-45  # Incliner les étiquettes de l'axe des x
+            title='Date',
+            title_font_size=18,
+            tickangle=-45
         ),
         yaxis_title='Prix Moyen (€/L)',
         yaxis_title_font_size=18,
@@ -92,6 +101,6 @@ def create_graphic_line(df):
         legend_title_font_size=18,
         legend_font_size=16,
         margin=dict(l=50, r=50, t=100, b=50)
-        )
-    
+    )
+
     return fig

@@ -18,7 +18,7 @@ def prepare_data_histogram(df):
     """
     
     # Convertir les colonnes de date en format datetime
-    date_columns = ['gazole_maj', 'sp95_maj', 'e85_maj', 'gplc_maj', 'e10_maj', 'sp98_maj']
+    date_columns = ['gazole_maj', 'sp95_maj', 'e85_maj', 'e10_maj', 'sp98_maj']
     for col in date_columns:
         df[col] = pd.to_datetime(df[col], utc=True)
 
@@ -50,7 +50,7 @@ def prepare_data_histogram(df):
     df['trimestre_order'] = df['trimestre'].astype(str).map(lambda x: trimestre_mapper[x][1])
 
     # Grouper par trimestre_str et calculer le prix moyen
-    df_grouped = df.groupby(['trimestre_str', 'trimestre_order'])[['gazole_prix', 'sp95_prix', 'e85_prix', 'gplc_prix', 'e10_prix', 'sp98_prix']].mean().reset_index()
+    df_grouped = df.groupby(['trimestre_str', 'trimestre_order'])[['gazole_prix', 'sp95_prix', 'e85_prix', 'e10_prix', 'sp98_prix']].mean().reset_index()
 
     # Trier par l'ordre numérique des trimestres et supprimer la colonne de tri
     df_grouped = df_grouped.sort_values('trimestre_order').drop('trimestre_order', axis=1)
@@ -59,11 +59,10 @@ def prepare_data_histogram(df):
         'gazole_prix': 'Gazole',
         'sp95_prix': 'SP95',
         'e85_prix': 'E85',
-        'gplc_prix': 'GPL',
         'e10_prix': 'E10',
         'sp98_prix': 'SP98'
     })
-
+    print (df_grouped)
     return df_grouped
 
 
@@ -87,7 +86,7 @@ def create_histogram(df):
     fig = px.bar(
         df_grouped, 
         x='trimestre_str', 
-        y=['Gazole', 'SP95', 'E85', 'GPL', 'E10', 'SP98'], 
+        y=['Gazole', 'SP95', 'E85', 'SP98','E10'], 
         barmode='group', 
         labels={'value': 'Prix moyen (€/L)', 'variable': 'Type de Carburant', 'trimestre_str': 'Trimestre'},
         color_discrete_sequence=px.colors.qualitative.Vivid
