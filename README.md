@@ -14,31 +14,14 @@ Pour déployer ce dashboard sur une machine, veuillez suivre les étapes suivant
 
   ` cd projet_python_data `
 
-  
-3. Installation des dépendances avec Conda :
-
-Si vous n'avez pas Anaconda ou Miniconda, installez-le depuis le site officiel d'Anaconda. Une fois installé, créez et activez un nouvel environnement Conda :
-
-```
-conda create --name myenv python=3.8
-conda activate myenv
-```
-
-4. Installez les dépendances nécessaires en exécutant :
-
-`
-conda install -c conda-forge --file requirements.txt
-`
-
-Si certaines dépendances ne sont pas disponibles sur Conda, utilisez pip comme alternative :
+3. Installer les dépendances
 
 `
 pip install -r requirements.txt
 `
 
 
-
-5. Lancement de l'application :
+4. Lancement de l'application :
 
 Exécutez le fichier app.py pour démarrer le dashboard
 ```python index.py```
