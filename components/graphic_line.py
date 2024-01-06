@@ -41,10 +41,10 @@ def prepare_data_graphicLine(df):
 
 
     # Grouper par jour, mois et année, puis calculer le prix moyen
-    df_grouped = df.groupby(['day', 'month', 'year'])[date_columns + ['gazole_prix', 'sp95_prix', 'e85_prix', 'e10_prix', 'sp98_prix']].mean().reset_index()
+    df_grouped = df.groupby(['year','month','day'])[date_columns + ['gazole_prix', 'sp95_prix', 'e85_prix', 'e10_prix', 'sp98_prix']].mean().reset_index()
 
     # Créer une nouvelle colonne pour l'axe des abscisses qui combine le jour, le mois et l'année
-    df_grouped['date'] = pd.to_datetime(df_grouped[['year', 'month', 'day']]).dt.strftime('%d %B %Y')
+    df_grouped['date'] = pd.to_datetime(df_grouped[['year','month','day']])
 
     df_grouped = df_grouped.rename(columns={
         'gazole_prix': 'Gazole',
@@ -56,6 +56,9 @@ def prepare_data_graphicLine(df):
 
     # Trier le DataFrame par date
     df_grouped = df_grouped.sort_values('date')
+
+    # Convertir la date en français
+    df_grouped['date'] = df_grouped['date'].dt.strftime('%d %B %Y')
 
     # Retourner le DataFrame groupé
     return df_grouped
@@ -89,7 +92,8 @@ def create_graphic_line(df):
     fig.update_yaxes(range=[0.5, 2.5], title='Prix moyen (€/L)')
     fig.update_layout(
         title='Évolution Quotidienne du Prix des Carburants en France',
-        title_font_size=24,
+        title_font_size=20,
+        title_y=0.95,
         xaxis=dict(
             title='Date',
             title_font_size=18,

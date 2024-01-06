@@ -34,4 +34,13 @@ def prepare_data_comparison(departement, carburant, df):
     # Trier par prix de carburant et obtenir les 5 premières lignes
     resultat = resultat.sort_values(by=prix_col).head(5)
 
+    # Mettre en forme le résultat prix €/L et arrondi à 2 chiffres après la virgule 
+    resultat[prix_col] = resultat[prix_col].round(2).astype(str) + ' €/L'
+
+    # Retourner le résultat
     return resultat
+
+
+
+
+

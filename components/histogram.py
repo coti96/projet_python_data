@@ -98,7 +98,8 @@ def create_histogram(df):
     # Personnaliser l'histogramme
     fig.update_layout(
         title='Évolution du Prix des Carburants en France en 2023',
-        title_font_size=24,
+        title_font_size=20,
+        title_y=0.95,
         xaxis=dict(
             title='Trimestre',
             title_font_size=18,

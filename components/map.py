@@ -54,7 +54,8 @@ def plot_gas_stations(df):
 
     fig.update_layout(
         title='Stations de carburants en France',
-        title_font_size=24,
+        title_y=0.95,
+        title_font_size=20,
         margin=dict(l=30, r=30, t=50, b=30),  
         mapbox=dict(bearing=0, pitch=0)
     )

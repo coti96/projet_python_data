@@ -11,7 +11,6 @@ from components.map import plot_gas_stations
 # Créer l'instance de l'application Dash
 app = create_app()
 
-app.css.append_css({'external_url': '/assets/style.css'})
 
 # Recuperer les données en DataFrame grace à la fonction prepare_data() du fichier data.py
 df = prepare_data()
@@ -27,75 +26,58 @@ fig_map = plot_gas_stations(df)
 
 
 # Définir l'agencement de l'application
-app.layout = html.Div(children=[
-    html.H1("Dashboard Carburants en France", 
-            style={
-                'textAlign': 'center', 
-                'color': '#ffffff',
-                'font-family': 'Roboto, sans-serif',  
-                'font-size': '36px',  # Ajuster la taille de la police
-                'font-weight': 'bold',  # Rendre le texte en gras si nécessaire
-            }
-    ),  
-    
-    html.Div([
-        # Affiche l'histogramme 
-        dcc.Graph(
-            figure=fig_histogram,
-            style={
-                'backgroundColor': '#4242b6',
-                'border': '2px solid #92959B',
-                'padding': '10px',
-                'border-radius': '10px',
-            }
-        ),
-    ], style={'width': '45%', 'display': 'inline-block', 'margin': '20px 0 20px 60px'}),  
+app.layout = html.Div(className='app', children=[
+    html.H1("Dashboard Carburants en France"),  
+    html.Div(className='container', children=[
+        html.Div([
+            # Affiche l'histogramme 
+            dcc.Graph(
+                figure=fig_histogram,
+                className='graph'
+            ),
+        ], className='card'),  
 
-    html.Div([
-        # Affiche la carte
-        dcc.Graph(
-            figure=fig_map,
-            style={
-                'backgroundColor': '#4242b6',
-                'border': '2px solid #92959B',
-                'padding': '10px',
-                'border-radius': '10px',
-            }
-        ),
-    ], style={'width': '45%', 'display': 'inline-block', 'margin': '20px 60px 20px 0'}),  
+        html.Div([
+            # Affiche la carte
+            dcc.Graph(
+                figure=fig_map,
+                className='graph'
+            ),
+        ], className='card'),  
+    ]),
+    html.Div(className='container', children=[
+        html.Div([
+            # Affiche le graphique à courbes
+            dcc.Graph(
+                figure=fig_graphic,
+                className='graph'
+            ),
+        ], className='card'),  
 
-    html.Div([
-        # Affiche le graphique à courbes
-        dcc.Graph(
-            figure=fig_graphic,
-            style={
-                'backgroundColor': '#4242b6',
-                'border': '2px solid #92959B',
-                'padding': '10px',
-                'border-radius': '10px',
-            }
-        ),
-    ], style={'width': '45%', 'display': 'inline-block', 'margin': '20px 0 20px 60px'}),  
+        html.Div(children=[
+            # Titre
+            html.H2("Trouver les prix les plus bas dans ma région :"),
+            # Div pour le formulaire
+            html.Div([
+                # Menu déroulant pour le département
+                dcc.Dropdown(id='departement', 
+                            options = [{'label': str(name), 'value': str(code)} for code, name in departements_dict.items()], 
+                            placeholder="Sélectionnez un département"),
 
-    # Div pour le formulaire
-    html.Div([
-        # Menu déroulant pour le département
-        dcc.Dropdown(id='departement', 
-                     options = [{'label': str(name), 'value': str(code)} for code, name in departements_dict.items()], 
-                     placeholder="Sélectionnez un département", style={'width': '300px', 'margin-right': '10px'}),
+                            
+                # Menu déroulant pour le carburant
+                dcc.Dropdown(id='checklist-carburant', options=[{'label': carb, 'value': carb} for carb in carburants], 
+                            placeholder="Sélectionnez un carburant", value='gazole'),
 
-                    
-        # Menu déroulant pour le carburant
-        dcc.Dropdown(id='checklist-carburant', options=[{'label': carb, 'value': carb} for carb in carburants], 
-                     placeholder="Sélectionnez un carburant", value='gazole', style={'width': '300px', 'margin-right': '10px'}),
+                # Bouton pour soumettre le formulaire
+                html.Button('Soumettre', id='bouton-soumettre')
+            ]),  
 
-        # Bouton pour soumettre le formulaire
-        html.Button('Soumettre', id='bouton-soumettre', style={'padding': '10px 20px'})
-    ], style={'width': '45%', 'display': 'inline-block', 'margin': '20px 60px 20px 0'}),  
-
-    # Div pour afficher les résultats
-    html.Div(id='resultat-comparaison', style={'width': '45%', 'display': 'inline-block', 'margin': '20px 60px 60px 0'}), 
-    ], style={'font-family': 'Roboto, sans-serif'})
+            # Div pour afficher les résultats
+            html.Div(id='resultat-comparaison'),
+        ], className='card', id='card4'),
+    ]),
+])
 
 
 
@@ -140,7 +122,10 @@ def update_output(n_clicks, departement, carburant):
     # Si le bouton a été cliqué, afficher le résultat
     else:
         resultat = prepare_data_comparison(departement, carburant, df)
-        return html.Div(str(resultat))
+        mise_en_forme = [f"{prix} : {adresse} {cp} {ville}" for adresse, cp, ville, prix in resultat.itertuples(index=False)]
+        mise_en_forme = html.Div([html.P(ligne) for ligne in mise_en_forme])
+
+    return mise_en_forme
 
 
 # Lancer le serveur Flask
