@@ -50,15 +50,15 @@ Comparaison de données : Ce module permet aux utilisateurs de trouver les cinq 
 
 Graphique à courbe : Il trace l'évolution des prix du carburant en France au fil du temps, offrant une vue d'ensemble des tendances de prix, qui sont cruciales pour comprendre les dynamiques du marché et la réaction des consommateurs face aux fluctuations des prix.
 
-<img src="/images/graph.jpg"  title="Organigramme">
+<img src="/images/images.jpg"  title="Graphique a courbe">
 
 Histogramme : Cette visualisation montre la tendance des prix du carburant par trimestre et par type de carburant, fournissant une analyse comparative qui aide à identifier les périodes de l'année où les prix sont généralement plus élevés ou plus bas.
 
-<img src="/images/histo.jpg"  title="Organigramme">
+<img src="/images/histo.jpg"  title="histogramme">
 
 Carte : Le module cartographique offre une représentation géographique des stations-service, permettant aux utilisateurs de visualiser la distribution et l'accessibilité des stations à travers le pays.
 
-<img src="/images/map.jpg"  title="Organigramme">
+<img src="/images/map.jpg"  title="Carte">
 
 ### Conclusion
 Les données analysées révèlent des informations  sur le marché du carburant en France. Les consommateurs peuvent utiliser ces informations pour prendre des décisions éclairées sur où et quand acheter du carburant. 
