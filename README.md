@@ -4,7 +4,7 @@
 
 ### Déploiement du Dashboard
 
-Pour déployer ce dashboard sur une autre machine, veuillez suivre les étapes suivantes :
+Pour déployer ce dashboard sur une machine, veuillez suivre les étapes suivantes :
 
 1. Cloner le dépôt :
 
@@ -33,11 +33,23 @@ Chaque module du dashboard met en lumière différents aspects de ces données :
 
 Comparaison de données : Ce module permet aux utilisateurs de trouver les cinq stations-service les moins chères dans un département donné, facilitant ainsi la prise de décision pour les consommateurs cherchant à économiser sur les coûts du carburant.
 
+![research](https://github.com/coti96/projet_python_data/assets/100384497/dfb4d84f-0867-43a3-b752-e26b4560f277)
+
+
 Graphique à courbe : Il trace l'évolution des prix du carburant en France au fil du temps, offrant une vue d'ensemble des tendances de prix, qui sont cruciales pour comprendre les dynamiques du marché et la réaction des consommateurs face aux fluctuations des prix.
+
+![grap](https://github.com/coti96/projet_python_data/assets/100384497/90349e54-daf5-4b88-b9da-9b93f67efdbb)
+
 
 Histogramme : Cette visualisation montre la tendance des prix du carburant par trimestre et par type de carburant, fournissant une analyse comparative qui aide à identifier les périodes de l'année où les prix sont généralement plus élevés ou plus bas.
 
+![histo](https://github.com/coti96/projet_python_data/assets/100384497/f9886eb0-b86a-4bc1-93d7-95d1a726a89e)
+
 Carte : Le module cartographique offre une représentation géographique des stations-service, permettant aux utilisateurs de visualiser la distribution et l'accessibilité des stations à travers le pays.
+
+![map](https://github.com/coti96/projet_python_data/assets/100384497/0d926d84-f3f7-4ecf-a705-92a2f94bbd48)
+
+
 
 ### Conclusion
 Les données analysées révèlent des informations  sur le marché du carburant en France. Les consommateurs peuvent utiliser ces informations pour prendre des décisions éclairées sur où et quand acheter du carburant. 
@@ -70,12 +82,15 @@ graph TD
 Plusieurs modifications pourraient etre proposer : 
 
 1. Croisement des Données
-Analyse Comparative Régionale : Comparer les prix du carburant entre différents départements ou régions pour identifier des tendances géographiques.
+Analyse Comparative Régionale :
+
+Comparer les prix du carburant entre différents départements ou régions pour identifier des tendances géographiques.
 
 Corrélation avec d'Autres Données : Croiser les prix du carburant avec d'autres données économiques ou démographiques, comme le revenu moyen par département, pour explorer des corrélations potentielles.
 
 2. Amélioration de la Cartographie
-Filtrage Interactif sur la Carte : Permettre aux utilisateurs de filtrer les stations-service affichées sur la carte en fonction de critères spécifiques, comme le type de carburant ou la fourchette de prix.
+   
+Permettre aux utilisateurs de filtrer les stations-service affichées sur la carte en fonction de critères spécifiques, comme le type de carburant ou la fourchette de prix.
 
 Affichage d'Informations Détaillées : Intégrer une fonctionnalité de "clic" sur les points de la carte pour afficher des informations détaillées sur chaque station-service.
 
