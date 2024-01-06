@@ -62,7 +62,7 @@ def prepare_data_histogram(df):
         'e10_prix': 'E10',
         'sp98_prix': 'SP98'
     })
-    print (df_grouped)
+  
     return df_grouped
 
 
