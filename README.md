@@ -28,6 +28,15 @@ Exécutez le fichier app.py pour démarrer le dashboard
 
 Ouvrez votre navigateur et accédez à l'URL indiquée dans le terminal pour visualiser le dashboard.
 
+(Vous devriez voir un message tel que : 
+
+Dash is running on http://127.0.0.1:8050/
+
+ * Serving Flask app 'app'
+ * Debug mode: on)
+
+ 
+
 # Rapport d'Analyse
 
 Le dashboard fournit des analyses approfondies basées sur les prix du carburant issus de la plateforme data.gouv.fr (https://www.data.gouv.fr/fr/datasets/prix-des-carburants-en-france-flux-instantane-v2-amelioree/
@@ -37,23 +46,19 @@ Chaque module du dashboard met en lumière différents aspects de ces données :
 
 Comparaison de données : Ce module permet aux utilisateurs de trouver les cinq stations-service les moins chères dans un département donné, facilitant ainsi la prise de décision pour les consommateurs cherchant à économiser sur les coûts du carburant.
 
-![research](https://github.com/coti96/projet_python_data/assets/100384497/dfb4d84f-0867-43a3-b752-e26b4560f277)
-
+<img src="/images/research.jpg"  title="Organigramme">
 
 Graphique à courbe : Il trace l'évolution des prix du carburant en France au fil du temps, offrant une vue d'ensemble des tendances de prix, qui sont cruciales pour comprendre les dynamiques du marché et la réaction des consommateurs face aux fluctuations des prix.
 
-![grap](https://github.com/coti96/projet_python_data/assets/100384497/90349e54-daf5-4b88-b9da-9b93f67efdbb)
-
+<img src="/images/graph.jpg"  title="Organigramme">
 
 Histogramme : Cette visualisation montre la tendance des prix du carburant par trimestre et par type de carburant, fournissant une analyse comparative qui aide à identifier les périodes de l'année où les prix sont généralement plus élevés ou plus bas.
 
-![histo](https://github.com/coti96/projet_python_data/assets/100384497/f9886eb0-b86a-4bc1-93d7-95d1a726a89e)
+<img src="/images/histo.jpg"  title="Organigramme">
 
 Carte : Le module cartographique offre une représentation géographique des stations-service, permettant aux utilisateurs de visualiser la distribution et l'accessibilité des stations à travers le pays.
 
-![map](https://github.com/coti96/projet_python_data/assets/100384497/0d926d84-f3f7-4ecf-a705-92a2f94bbd48)
-
-
+<img src="/images/map.jpg"  title="Organigramme">
 
 ### Conclusion
 Les données analysées révèlent des informations  sur le marché du carburant en France. Les consommateurs peuvent utiliser ces informations pour prendre des décisions éclairées sur où et quand acheter du carburant. 
@@ -61,25 +66,16 @@ Les données analysées révèlent des informations  sur le marché du carburant
 
 
 # Guide du Développeur
+
 Comprendre l'Architecture du Code
+
+
 Le code est structuré de manière impérative avec des modules spécifiques pour chaque type de visualisation et de traitement des données.
 
 Organigramme du Code
-```mermaid
-graph TD
-    IndexPy[Index.py] -->|Initialise| AppPy[App.py]
-    IndexPy -->|Prépare les Données| DataPy[Data.py]
-    DataPy -->|Retourne DataFrame| DF[DataFrame]
 
-    DF -->|Données pour Visualisations| VisComp{Visualisation Components}
-    VisComp -->|Histogramme| HistogramPy[Histogram.py]
-    VisComp -->|Graphique à Courbes| GraphicLinePy[Graphic_Line.py]
-    VisComp -->|Carte| MapPy[Map.py]
-    VisComp -->|Comparaison| ComparisonPy[Comparison.py]
+<img src="/images/organigramme.jpg"  title="Organigramme">
 
-    IndexPy -->|Intègre dans Dash| DashApp[Dash Application]
-    DashApp -->|Layout & Callbacks| Layout[Layout HTML]
-```
 
 # Modification et Extension du Code
 
