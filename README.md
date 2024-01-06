@@ -8,10 +8,13 @@ Pour déployer ce dashboard sur une machine, veuillez suivre les étapes suivant
 
 1. Cloner le dépôt :
 
-``` git clone https://github.com/coti96/projet_python_data.git ```
+` git clone https://github.com/coti96/projet_python_data.git `
 
+2. Se déplacer au sein du dossier crée
 
-2. Installation des dépendances :
+  ` cd projet_python_data `
+
+4. Installation des dépendances :
 
 Assurez-vous que Python est installé sur votre machine.
 Installez toutes les dépendances requises en exécutant dans votre terminal
